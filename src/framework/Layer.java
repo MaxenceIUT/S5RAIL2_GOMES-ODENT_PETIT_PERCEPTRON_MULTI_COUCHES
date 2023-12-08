@@ -6,7 +6,7 @@ public class Layer {
     public int length;
 
     /**
-     * Couche de Neurones
+     * Couche de neurones
      *
      * @param length Taille de la couche
      * @param prev   Taille de la couche précédente

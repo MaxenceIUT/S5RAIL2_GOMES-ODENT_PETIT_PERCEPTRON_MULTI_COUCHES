@@ -7,9 +7,9 @@ public class MLP {
     protected TransferFunction transferFunction;
 
     /**
-     * @param layers           Nb neurones par couches
-     * @param learningRate     tx d'apprentissage
-     * @param transferFunction Function de transfert
+     * @param layers           Nombre de neurones par couche
+     * @param learningRate     Taux d'apprentissage
+     * @param transferFunction Fonction de transfert
      */
     public MLP(int[] layers, double learningRate, TransferFunction transferFunction) {
         this.learningRate = learningRate;
@@ -28,8 +28,8 @@ public class MLP {
     /**
      * Réponse à une entrée
      *
-     * @param input l'entrée testée
-     * @return résultat de l'exécution
+     * @param input L'entrée testée
+     * @return Résultat de l'exécution
      */
     public double[] execute(double[] input) {
         int i, j, k;
