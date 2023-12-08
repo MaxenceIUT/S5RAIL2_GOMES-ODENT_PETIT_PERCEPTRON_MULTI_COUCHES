@@ -7,6 +7,9 @@ public class Neuron {
     public double bias;
     public double delta;
 
+    /**
+     * @param prevLayerSize Taille de la couche précédente
+     */
     public Neuron(int prevLayerSize) {
         weights = new double[prevLayerSize];
         bias = Math.random();

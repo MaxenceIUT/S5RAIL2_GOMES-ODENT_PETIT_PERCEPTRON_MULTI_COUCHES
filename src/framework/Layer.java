@@ -8,14 +8,14 @@ public class Layer {
     /**
      * Couche de Neurones
      *
-     * @param l    Taille de la couche
-     * @param prev Taille de la couche précédente
+     * @param length Taille de la couche
+     * @param prev   Taille de la couche précédente
      */
-    public Layer(int l, int prev) {
-        length = l;
-        neurons = new Neuron[l];
+    public Layer(int length, int prev) {
+        this.length = length;
+        neurons = new Neuron[length];
 
-        for (int j = 0; j < length; j++)
+        for (int j = 0; j < this.length; j++)
             neurons[j] = new Neuron(prev);
     }
 
