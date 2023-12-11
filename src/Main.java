@@ -13,6 +13,7 @@ public class Main {
     public static void main(String[] args) {
         int[] layers = {2, 2, 1};
         double learningRate = 0.003;
+        double errorTarget = 0.01;
         TransferFunction transferFunction = new Sigmoide();
 
         /* OR */
@@ -35,14 +36,14 @@ public class Main {
         Instant start = Instant.now();
         System.out.println("Apprentissage en cours...");
 
-        double error = 1;
+        double[] trainingError = Arrays.stream(orInput).mapToDouble(input -> 1.0).toArray();
         int i = 0;
-        while(i < MAX_ITERATIONS && error > 0.01) {
+        while(i < MAX_ITERATIONS && Arrays.stream(trainingError).anyMatch(error -> error > errorTarget)) {
             int randomInput = random.nextInt(orInput.length);
             double[] input = orInput[randomInput];
             double[] output = orOutput[randomInput];
 
-            error = mlp.backPropagate(input, output);
+            trainingError[randomInput] = mlp.backPropagate(input, output);
             i++;
         }
 
@@ -56,7 +57,9 @@ public class Main {
         sb.append("Apprentissage terminé en ").append(ms).append("\n");
         sb.append("Itérations effectuées : ").append(i).append(" (max. ").append(MAX_ITERATIONS).append(")\n");
         sb.append("\n");
-        sb.append("Erreur finale : ").append(error).append("\n");
+        Arrays.stream(trainingError).average().ifPresent(value -> {
+            sb.append("Erreur finale moyenne : ").append(value).append("\n");
+        });
         sb.append("-".repeat(50));
 
         System.out.println(Arrays.toString(mlp.execute(new double[]{0, 1})));
