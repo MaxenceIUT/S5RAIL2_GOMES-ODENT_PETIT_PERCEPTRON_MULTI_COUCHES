@@ -2,7 +2,8 @@ public enum DataSet {
 
     OR(new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, new double[][]{{0}, {1}, {1}, {1}}),
     AND(new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, new double[][]{{0}, {0}, {0}, {1}}),
-    XOR(new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, new double[][]{{0}, {1}, {1}, {0}});
+    XOR(new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, new double[][]{{0}, {1}, {1}, {0}}),
+    ORAND(new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, new double[][]{{0, 0}, {1, 0}, {1, 0}, {1, 1}});
 
     public final double[][] inputs;
     public final double[][] outputs;
