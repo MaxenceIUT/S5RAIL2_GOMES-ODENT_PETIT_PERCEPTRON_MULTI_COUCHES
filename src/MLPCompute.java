@@ -30,7 +30,7 @@ public class MLPCompute {
         params.append("Paramètres :").append("\n");
         params.append("\t").append("- Pas d'apprentissage : ").append(learningRate).append("\n");
         params.append("\t").append("- Taux d'erreur cible : ").append(errorTarget).append("\n");
-        params.append("\t").append("- Fonction de transfert : ").append(transferFunction.getClass().getSimpleName()).append("\n");
+        params.append("\t").append("- Fonction de transfert : ").append(transferFunction).append("\n");
         params.append("\t").append("- Couches : ").append(Arrays.toString(layers)).append("\n");
         params.append("\t").append("- Jeu de données : ").append(dataSet.name()).append("\n");
         params.append("-".repeat(50));
