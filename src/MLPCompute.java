@@ -10,8 +10,7 @@ public class MLPCompute {
 
     /**
      * @param configuration Configuration de l'apprentissage
-     * @param maxIterations Nombre d'itérations maximum
-     * @return
+     * @return Statistiques de l'apprentissage
      */
     public static Statistics compute(Configuration configuration) {
         Random random = new Random();
