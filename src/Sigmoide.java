@@ -16,4 +16,8 @@ public class Sigmoide implements TransferFunction {
         return value - Math.pow(value, 2);
     }
 
+    @Override
+    public String toString() {
+        return "Sigmoide";
+    }
 }

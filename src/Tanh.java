@@ -11,4 +11,10 @@ public class Tanh implements TransferFunction {
     public double evaluateDer(double value) {
         return 1 - Math.pow(value, 2);
     }
+
+    @Override
+    public String toString() {
+        return "Tangente hyperbolique";
+    }
+
 }
