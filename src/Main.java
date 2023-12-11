@@ -62,7 +62,9 @@ public class Main {
         });
         sb.append("-".repeat(50));
 
-        System.out.println(Arrays.toString(mlp.execute(new double[]{0, 1})));
+        for (double[] doubles : orInput) {
+            System.out.println(Arrays.toString(doubles) + " -> " + Arrays.toString(mlp.execute(doubles)));
+        }
 
         System.out.println(sb);
     }
