@@ -2,7 +2,7 @@ package framework;
 
 public class MLP {
 
-    protected double learningRate = 0.6;
+    protected double learningRate;
     protected Layer[] layers;
     protected TransferFunction transferFunction;
 
