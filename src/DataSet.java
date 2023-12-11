@@ -17,6 +17,14 @@ public enum DataSet {
         return inputs.length;
     }
 
+    public int inputSize() {
+        return inputs[0].length;
+    }
+
+    public int outputSize() {
+        return outputs[0].length;
+    }
+
     public double[] getInput(int index) {
         return inputs[index];
     }
