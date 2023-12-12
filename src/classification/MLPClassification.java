@@ -13,32 +13,51 @@ public class MLPClassification extends AlgoClassification{
     public MLPClassification(List<Imagette> trainingImagettes) {
         super(trainingImagettes);
 
-        int[] layers = {10, 10, 10};
+        int pixels = trainingImagettes.getFirst().getRows() * trainingImagettes.getFirst().getCols();
+        int[] layers = {pixels, 30, 20, 10};
         double learningRate = 0.6;
         TransferFunction transferFunction = new Sigmoide();
 
         this.mlp = new MLP(layers, learningRate, transferFunction);
 
-        var random = new Random();
-        var trainingError = new ArrayList<>(Collections.nCopies(10, 1.0));
-        double errorTarget = 0.01;
+        double errorTarget = 5;
+        double errorPercentage = 100;
         int maxIterations = 1_000_000;
+        List<Imagette> shuffledImagette;
+        double[] inputs = new double[trainingImagettes.getFirst().getRows() * trainingImagettes.getFirst().getCols()];
+        double[] outputs = new double[10];
         int i = 0;
 
-        while (i < maxIterations && trainingError.stream().anyMatch(error -> error > errorTarget)) {
-            int randomInput = random.nextInt(trainingImagettes.size());
-            Imagette imagette = trainingImagettes.get(randomInput);
-            double[] inputs = new double[imagette.getRows() * imagette.getCols()];
-            double[] outputs = new double[10];
+        while (i < maxIterations && errorPercentage > errorTarget) {
 
-            for (int row = 0; row < imagette.getRows(); row++) {
-                for (int col = 0; col < imagette.getCols(); col++) {
-                    inputs[row * imagette.getCols() + col] = imagette.getPixels()[row][col];
+            for (int j = 0; j <= 10; j++) {
+
+                Collections.shuffle(trainingImagettes);
+                shuffledImagette = trainingImagettes.stream().limit(1000).toList();
+
+                for(Imagette imagette : shuffledImagette) {
+                    for (int row = 0; row < imagette.getRows(); row++) {
+                        for (int col = 0; col < imagette.getCols(); col++) {
+                            inputs[row * imagette.getCols() + col] = imagette.getPixels()[row][col];
+                        }
+                    }
+                    outputs[imagette.getLabel()] = 1;
+                    this.mlp.backPropagate(inputs, outputs);
                 }
             }
 
-            outputs[imagette.getLabel()] = 1;
-            trainingError.set(randomInput, this.mlp.backPropagate(inputs, outputs));
+            Collections.shuffle(trainingImagettes);
+            shuffledImagette = trainingImagettes.stream().limit(1000).toList();
+
+            int unsatisfyingValues = 0;
+            for (Imagette imagette : shuffledImagette) {
+                outputs = this.mlp.execute(inputs);
+                if (outputs[imagette.getLabel()] != 1) {
+                    unsatisfyingValues++;
+                }
+            }
+            errorPercentage = (double) unsatisfyingValues / shuffledImagette.size() * 100;
+
             i++;
         }
     }
