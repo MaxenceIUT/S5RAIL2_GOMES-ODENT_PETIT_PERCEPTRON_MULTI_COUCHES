@@ -13,12 +13,13 @@ public class Statistics {
 
     /**
      * Création d'un objet statistiques d'un apprentissage de MLP
-     * @param mlp MLP entraîné
-     * @param dataSet Jeu de données utilisé
-     * @param trainingError Tableau des erreurs d'apprentissage finales
+     *
+     * @param mlp            MLP entraîné
+     * @param dataSet        Jeu de données utilisé
+     * @param trainingError  Tableau des erreurs d'apprentissage finales
      * @param iterationCount Nombre d'itérations effectuées
-     * @param maxIterations Nombre d'itérations maximum
-     * @param duration Durée de l'apprentissage
+     * @param maxIterations  Nombre d'itérations maximum
+     * @param duration       Durée de l'apprentissage
      */
     public Statistics(MLP mlp, DataSet dataSet, double[] trainingError, int iterationCount, int maxIterations, Duration duration) {
         this.mlp = mlp;
@@ -29,7 +30,7 @@ public class Statistics {
         this.duration = duration;
     }
 
-    public String toString(){
+    public String toString() {
         String ms = duration.toMillis() + "ms";
 
         StringBuilder sb = new StringBuilder();

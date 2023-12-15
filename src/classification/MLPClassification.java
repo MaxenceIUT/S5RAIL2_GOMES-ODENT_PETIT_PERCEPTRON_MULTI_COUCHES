@@ -1,12 +1,14 @@
 package classification;
 
 import framework.MLP;
+import framework.Sigmoide;
 import framework.TransferFunction;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import java.util.*;
-
-public class MLPClassification extends AlgoClassification{
+public class MLPClassification extends AlgoClassification {
 
     private final MLP mlp;
 
@@ -35,7 +37,7 @@ public class MLPClassification extends AlgoClassification{
                 Collections.shuffle(trainingImagettes);
                 shuffledImagette = trainingImagettes.stream().limit(1000).toList();
 
-                for(Imagette imagette : shuffledImagette) {
+                for (Imagette imagette : shuffledImagette) {
                     for (int row = 0; row < imagette.getRows(); row++) {
                         for (int col = 0; col < imagette.getCols(); col++) {
                             inputs[row * imagette.getCols() + col] = imagette.getPixels()[row][col];

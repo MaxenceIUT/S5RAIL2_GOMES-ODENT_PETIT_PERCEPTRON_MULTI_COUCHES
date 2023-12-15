@@ -20,10 +20,6 @@ public class Donnees {
         this(load(trainingImagesFile, trainingLabelsFile));
     }
 
-    public List<Imagette> getImagettes() {
-        return imagettes;
-    }
-
     public static List<Imagette> load(File trainingImagesFile, File trainingLabelsFile) throws IOException {
         InputStream imageStream = Files.newInputStream(trainingImagesFile.toPath());
         InputStream labelsStream = Files.newInputStream(trainingLabelsFile.toPath());
@@ -61,6 +57,10 @@ public class Donnees {
             imagettes.add(imagette);
         }
 
+        return imagettes;
+    }
+
+    public List<Imagette> getImagettes() {
         return imagettes;
     }
 

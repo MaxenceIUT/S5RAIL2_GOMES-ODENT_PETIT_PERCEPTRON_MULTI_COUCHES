@@ -24,15 +24,14 @@ public class MLPCompute {
         int maxIterations = configuration.getMaxIterations();
 
         // On affiche les paramètres utilisés
-        StringBuilder params = new StringBuilder();
-        params.append("-".repeat(50)).append("\n");
-        params.append("Paramètres :").append("\n");
-        params.append("\t").append("- Pas d'apprentissage : ").append(learningRate).append("\n");
-        params.append("\t").append("- Taux d'erreur cible : ").append(errorTarget).append("\n");
-        params.append("\t").append("- Fonction de transfert : ").append(transferFunction).append("\n");
-        params.append("\t").append("- Couches : ").append(Arrays.toString(layers)).append("\n");
-        params.append("\t").append("- Jeu de données : ").append(dataSet.name()).append("\n");
-        params.append("-".repeat(50));
+        String params = "-".repeat(50) + "\n" +
+                "Paramètres :" + "\n" +
+                "\t" + "- Pas d'apprentissage : " + learningRate + "\n" +
+                "\t" + "- Taux d'erreur cible : " + errorTarget + "\n" +
+                "\t" + "- Fonction de transfert : " + transferFunction + "\n" +
+                "\t" + "- Couches : " + Arrays.toString(layers) + "\n" +
+                "\t" + "- Jeu de données : " + dataSet.name() + "\n" +
+                "-".repeat(50);
         System.out.println(params);
 
         // On instancie le perceptron multicouche

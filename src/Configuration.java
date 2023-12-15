@@ -1,3 +1,5 @@
+import framework.Sigmoide;
+import framework.Tanh;
 import framework.TransferFunction;
 
 import java.util.Arrays;

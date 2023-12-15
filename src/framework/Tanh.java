@@ -1,4 +1,4 @@
-import framework.TransferFunction;
+package framework;
 
 public class Tanh implements TransferFunction {
 

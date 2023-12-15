@@ -13,6 +13,15 @@ public enum DataSet {
         this.outputs = outputs;
     }
 
+    public static DataSet fromString(String name) {
+        for (DataSet dataSet : DataSet.values()) {
+            if (dataSet.name().equalsIgnoreCase(name)) {
+                return dataSet;
+            }
+        }
+        return null;
+    }
+
     public int size() {
         return inputs.length;
     }
@@ -39,15 +48,6 @@ public enum DataSet {
 
     public double[][] getOutputsArray() {
         return outputs;
-    }
-
-    public static DataSet fromString(String name) {
-        for (DataSet dataSet : DataSet.values()) {
-            if (dataSet.name().equalsIgnoreCase(name)) {
-                return dataSet;
-            }
-        }
-        return null;
     }
 
 }

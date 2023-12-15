@@ -1,4 +1,4 @@
-import framework.TransferFunction;
+package framework;
 
 public class Sigmoide implements TransferFunction {
 
@@ -18,6 +18,6 @@ public class Sigmoide implements TransferFunction {
 
     @Override
     public String toString() {
-        return "Sigmoide";
+        return "framework.Sigmoide";
     }
 }
