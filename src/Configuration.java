@@ -124,14 +124,12 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return "Configuration{" +
-                "learningRate=" + learningRate +
-                ", errorTarget=" + errorTarget +
-                ", layers=" + Arrays.toString(layers) +
-                ", transferFunction=" + transferFunction +
-                ", dataSet=" + dataSet +
-                ", maxIterations=" + maxIterations +
-                '}';
+        return "Paramètres :" + "\n" +
+                "\t" + "- Pas d'apprentissage : " + learningRate + "\n" +
+                "\t" + "- Taux d'erreur cible : " + errorTarget + "\n" +
+                "\t" + "- Fonction de transfert : " + transferFunction + "\n" +
+                "\t" + "- Couches : " + Arrays.toString(layers) + "\n" +
+                "\t" + "- Jeu de données : " + dataSet.name();
     }
 
     public double getLearningRate() {
