@@ -34,7 +34,6 @@ public class Statistics {
         String ms = duration.toMillis() + "ms";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("-".repeat(50)).append("\n");
         sb.append("Apprentissage terminé en ").append(ms).append("\n");
         sb.append("Itérations effectuées : ").append(iterationCount).append(" (max. ").append(maxIterations).append(
                 ")\n");
@@ -42,7 +41,6 @@ public class Statistics {
         Arrays.stream(trainingError).average().ifPresent(value -> {
             sb.append("Erreur finale moyenne : ").append(value).append("\n");
         });
-        sb.append("-".repeat(50));
 
         return sb.toString();
     }
