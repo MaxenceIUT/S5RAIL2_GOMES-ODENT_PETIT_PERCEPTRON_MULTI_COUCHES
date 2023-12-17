@@ -1,86 +1,66 @@
+import framework.Sigmoide;
+import framework.Tanh;
+import framework.TransferFunction;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class TestsMLP {
 
-    public static void main(String[] args) {
-        Configuration orTanh221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Tanh(),
-                DataSet.OR,
-                1_000_000
-        );
-        Configuration orSig221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Sigmoide(),
-                DataSet.OR,
-                1_000_000
-        );
-        Configuration andTanh221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Tanh(),
-                DataSet.AND,
-                1_000_000
-        );
-        Configuration andSig221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Sigmoide(),
-                DataSet.AND,
-                1_000_000
-        );
-        Configuration xorTanh221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Tanh(),
-                DataSet.XOR,
-                1_000_000
-        );
-        Configuration xorSig221Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 1},
-                new Sigmoide(),
-                DataSet.XOR,
-                1_000_000
-        );
-        Configuration orAndTanh222Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 2},
-                new Tanh(),
-                DataSet.ORAND,
-                1_000_000
-        );
-        Configuration orAndSig222Config = new Configuration(
-                0.6,
-                0.01,
-                new int[]{2, 2, 2},
-                new Sigmoide(),
-                DataSet.ORAND,
-                1_000_000
-        );
+    public static final int[][] testLayers = {
+            {2},
+            {5, 2},
+            {2, 3}
+    };
+    public static final TransferFunction[] testFunctions = {
+            new Tanh(),
+            new Sigmoide()
+    };
+    public static final DataSet[] testDatasets = {
+            DataSet.OR,
+            DataSet.AND,
+            DataSet.XOR,
+            DataSet.ORAND
+    };
 
-        List<Configuration> tests = Arrays.asList(
-                orTanh221Config,
-                orSig221Config,
-                andTanh221Config,
-                andSig221Config,
-                xorTanh221Config,
-                xorSig221Config,
-                orAndTanh222Config,
-                orAndSig222Config
-        );
+    public static void main(String[] args) {
+        // On génère toutes les configurations à tester
+        List<Configuration> configurationsToTest = new ArrayList<>();
+        for (int[] layer : testLayers) {
+            for (TransferFunction testFunction : testFunctions) {
+                for (DataSet testDataset : testDatasets) {
+                    // On crée nos couches en ajoutant une couche d'entrée et une couche de sortie
+                    int[] modifiedLayers = new int[layer.length + 2];
+                    modifiedLayers[0] = testDataset.inputSize();
+                    System.arraycopy(layer, 0, modifiedLayers, 1, layer.length);
+                    modifiedLayers[modifiedLayers.length - 1] = testDataset.outputSize();
+
+                    Configuration config = new Configuration(
+                            0.6,
+                            0.01,
+                            modifiedLayers,
+                            testFunction,
+                            testDataset,
+                            1_000_000
+                    );
+                    configurationsToTest.add(config);
+                }
+            }
+        }
+        // On lance les tests
+        testConfigurations(configurationsToTest);
+    }
+
+    /**
+     * @param tests Liste des configurations à tester
+     */
+    private static void testConfigurations(List<Configuration> tests) {
         for (Configuration config : tests) {
+            // On exécute l'apprentissage de notre perceptron multicouche
             Statistics statistics = MLPCompute.compute(config);
+
+            // On affiche les résultats et les valeurs obtenues sur les exemples
             System.out.println(statistics);
             System.out.println("Test des exemples: ");
             for (double[] doubles : config.getDataSet().getInputsArray()) {
