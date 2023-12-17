@@ -23,16 +23,10 @@ public class MLPCompute {
         DataSet dataSet = configuration.getDataSet();
         int maxIterations = configuration.getMaxIterations();
 
-        // On affiche les paramètres utilisés
-        String params = "-".repeat(50) + "\n" +
-                "Paramètres :" + "\n" +
-                "\t" + "- Pas d'apprentissage : " + learningRate + "\n" +
-                "\t" + "- Taux d'erreur cible : " + errorTarget + "\n" +
-                "\t" + "- Fonction de transfert : " + transferFunction + "\n" +
-                "\t" + "- Couches : " + Arrays.toString(layers) + "\n" +
-                "\t" + "- Jeu de données : " + dataSet.name() + "\n" +
-                "-".repeat(50);
-        System.out.println(params);
+        // On affiche la configuration utilisée
+        System.out.println("-".repeat(50));
+        System.out.println(configuration);
+        System.out.println();
 
         // On instancie le perceptron multicouche
         MLP mlp = new MLP(layers, learningRate, transferFunction);
@@ -44,7 +38,11 @@ public class MLPCompute {
         // Création d'un tableau rempli de 1 (taille dataSet.getInputsArray().length)
         double[] trainingError = Arrays.stream(dataSet.getOutputsArray()).mapToDouble(input -> 1.0).toArray();
         int i = 0;
-        // Tant que l'on a pas excédé le nombre d'itérations max et qu'au moins le taux d'erreur d'un exemple est supérieur à l'erreur cible
+        /*
+         Tant que :
+          - le nombre d'itérations maximum n'est pas atteint ET QUE
+          - le taux d'erreur cible n'est pas atteint par au moins un exemple
+         */
         while (i < maxIterations && Arrays.stream(trainingError).anyMatch(error -> error > errorTarget)) {
             int randomInput = random.nextInt(dataSet.getInputsArray().length);
             double[] input = dataSet.getInput(randomInput);
