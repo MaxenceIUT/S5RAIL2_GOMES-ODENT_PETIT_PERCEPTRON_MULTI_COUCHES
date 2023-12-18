@@ -8,10 +8,10 @@ import java.util.List;
 
 public class TestsMNIST {
 
-    public static final String TRAIN_IMAGES_IDX3 = "train-images.idx3-ubyte";
-    public static final String TRAIN_LABELS_IDX1 = "train-labels.idx1-ubyte";
-    public static final String TEST_IMAGES_IDX3 = "t10k-images.idx3-ubyte";
-    public static final String TEST_LABELS_IDX1 = "t10k-labels.idx1-ubyte";
+    public static final String TRAIN_IMAGES_IDX3 = "numbers/train-images.idx3-ubyte";
+    public static final String TRAIN_LABELS_IDX1 = "numbers/train-labels.idx1-ubyte";
+    public static final String TEST_IMAGES_IDX3 = "numbers/t10k-images.idx3-ubyte";
+    public static final String TEST_LABELS_IDX1 = "numbers/t10k-labels.idx1-ubyte";
 
     public static void main(String[] args) throws IOException {
         File resourceFolder = new File("MNIST");
