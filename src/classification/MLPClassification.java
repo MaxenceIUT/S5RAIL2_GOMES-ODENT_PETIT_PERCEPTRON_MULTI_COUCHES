@@ -1,7 +1,6 @@
 package classification;
 
 import framework.MLP;
-import framework.Sigmoide;
 import framework.TransferFunction;
 
 import java.util.Arrays;
@@ -12,25 +11,24 @@ public class MLPClassification extends AlgoClassification {
 
     private final MLP mlp;
 
-    public MLPClassification(List<Imagette> trainingImagettes) {
+    public MLPClassification(List<Imagette> trainingImagettes, int[] layersExceptFirstAndLast, double learningRate, TransferFunction transferFunction, double errorTarget, int maxIterations) {
         super(trainingImagettes);
 
         int pixels = trainingImagettes.getFirst().getRows() * trainingImagettes.getFirst().getCols();
-        int[] layers = {pixels, 30, 20, 10};
-        double learningRate = 0.6;
-        TransferFunction transferFunction = new Sigmoide();
+        int[] layers = new int[]{pixels};
+        System.arraycopy(layersExceptFirstAndLast, 0, layers, 1, layersExceptFirstAndLast.length);
+        layers[layers.length - 1] = 10;
 
         this.mlp = new MLP(layers, learningRate, transferFunction);
 
-        double errorTarget = 5;
         double errorPercentage = 100;
-        int maxIterations = 1_000_000;
-        List<Imagette> shuffledImagette;
-        double[] inputs = new double[trainingImagettes.getFirst().getRows() * trainingImagettes.getFirst().getCols()];
-        double[] outputs = new double[10];
         int i = 0;
 
         while (i < maxIterations && errorPercentage > errorTarget) {
+
+            List<Imagette> shuffledImagette;
+            double[] inputs = new double[trainingImagettes.getFirst().getRows() * trainingImagettes.getFirst().getCols()];
+            double[] outputs = new double[10];
 
             for (int j = 0; j <= 10; j++) {
 
