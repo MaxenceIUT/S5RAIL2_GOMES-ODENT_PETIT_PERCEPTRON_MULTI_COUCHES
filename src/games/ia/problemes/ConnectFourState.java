@@ -29,7 +29,7 @@ public class ConnectFourState extends GameState {
         rows = r;
 
         board = new int[r][c];
-        for(int i=0; i<r; i++)
+        for (int i = 0; i < r; i++)
             Arrays.fill(board[i], EMPTY);
 
         // -1: pas fini,1: X gagne, 0: O Gagne, 0.5 match nul
@@ -46,10 +46,14 @@ public class ConnectFourState extends GameState {
         return cols;
     }
 
+    public int[][] getBoard() {
+        return board;
+    }
+
     public ConnectFourState cloneState() {
-        ConnectFourState new_s = new ConnectFourState(rows,cols);
-        for(int r=0; r<rows; r++)
-            for (int c=0; c<cols; c++)
+        ConnectFourState new_s = new ConnectFourState(rows, cols);
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
                 new_s.board[r][c] = board[r][c];
 
         new_s.player_to_move = player_to_move;
@@ -58,15 +62,15 @@ public class ConnectFourState extends GameState {
     }
 
     public int hashState() {
-        return Arrays.deepHashCode( board );
+        return Arrays.deepHashCode(board);
 
     }
 
     public boolean equalsState(State o) {
         ConnectFourState other = (ConnectFourState) o;
-        for(int r=0; r<rows; r++)
-            for (int c=0; c<cols; c++)
-                if ( other.board[r][c] != board[r][c] )
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                if (other.board[r][c] != board[r][c])
                     return false;
         return super.equalsState(o);
     }
@@ -129,15 +133,15 @@ public class ConnectFourState extends GameState {
         //                   +" out of "+rows*cols) ;
 
         // tout remplie, match nul
-        if (getNumberOfMarkedPositions()==rows*cols)
+        if (getNumberOfMarkedPositions() == rows * cols)
             game_value = 0.5;
 
         // un gagnant, lequel ?
-        if(isWiningMove(player_to_move))
-            game_value = player_to_move==X ? 1 : 0;
+        if (isWiningMove(player_to_move))
+            game_value = player_to_move == X ? 1 : 0;
 
         // change de joueur
-        player_to_move = (player_to_move==X ? O : X);
+        player_to_move = (player_to_move == X ? O : X);
 
         //System.out.println("Game value after play "+game_value ) ;
 
@@ -163,11 +167,11 @@ public class ConnectFourState extends GameState {
      * -1 si c'est full
      */
     private int getFreeRow(int col) {
-        if (col>=0 && col <cols){
+        if (col >= 0 && col < cols) {
             //System.out.println("Testing "+col);
-            for (int r=0; r<rows; r++){
+            for (int r = 0; r < rows; r++) {
                 //System.out.print("Free "+r+" ?");
-                if(board[r][col] == EMPTY){
+                if (board[r][col] == EMPTY) {
                     //System.out.println(" yes");
                     return r;
                 }
@@ -180,8 +184,8 @@ public class ConnectFourState extends GameState {
     // le nombre de cases déjà remplies
     public int getNumberOfMarkedPositions() {
         int count = 0;
-        for(int r=0; r<rows; r++)
-            for(int c=0; c<cols; c++)
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
                 if (board[r][c] != EMPTY)
                     count++;
         return count;
@@ -190,20 +194,20 @@ public class ConnectFourState extends GameState {
     // Verifier les diagonales
     private boolean isAnyDiagComplete(int player) {
 
-        for(int c=0; c<cols-3; c++)
-            for(int r=0; r<rows-3; r++)
-                if(board[r][c] == player &&
-                        board[r][c] == board[r+1][c+1] &&
-                        board[r][c] == board[r+2][c+2] &&
-                        board[r][c] == board[r+3][c+3] )
+        for (int c = 0; c < cols - 3; c++)
+            for (int r = 0; r < rows - 3; r++)
+                if (board[r][c] == player &&
+                        board[r][c] == board[r + 1][c + 1] &&
+                        board[r][c] == board[r + 2][c + 2] &&
+                        board[r][c] == board[r + 3][c + 3])
                     return true;
 
-        for(int c=3; c<cols; c++)
-            for(int r=0; r<rows-3; r++)
-                if(board[r][c] == player &&
-                        board[r][c] == board[r+1][c-1] &&
-                        board[r][c] == board[r+2][c-2] &&
-                        board[r][c] == board[r+3][c-3] )
+        for (int c = 3; c < cols; c++)
+            for (int r = 0; r < rows - 3; r++)
+                if (board[r][c] == player &&
+                        board[r][c] == board[r + 1][c - 1] &&
+                        board[r][c] == board[r + 2][c - 2] &&
+                        board[r][c] == board[r + 3][c - 3])
                     return true;
 
         return false;
@@ -213,12 +217,12 @@ public class ConnectFourState extends GameState {
     // verifier s'il y a pas une ligne vertical de faite
     private boolean isAnyColumnComplete(int player) {
 
-        for(int c=0; c<cols; c++)
-            for(int r=0; r<rows-3; r++)
-                if(board[r][c] == player &&
-                        board[r][c] == board[r+1][c] &&
-                        board[r][c] == board[r+2][c] &&
-                        board[r][c] == board[r+3][c] )
+        for (int c = 0; c < cols; c++)
+            for (int r = 0; r < rows - 3; r++)
+                if (board[r][c] == player &&
+                        board[r][c] == board[r + 1][c] &&
+                        board[r][c] == board[r + 2][c] &&
+                        board[r][c] == board[r + 3][c])
                     return true;
         return false;
     }
@@ -227,12 +231,12 @@ public class ConnectFourState extends GameState {
     // vérifier s'il y a pas une ligne horizontale de faite
     private boolean isAnyRowComplete(int player) {
 
-        for(int r=0; r<rows;r++)
-            for(int c=0; c<cols-3; c++)
-                if(board[r][c] == player &&
-                        board[r][c] == board[r][c+1] &&
-                        board[r][c] == board[r][c+2] &&
-                        board[r][c] == board[r][c+3] )
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols - 3; c++)
+                if (board[r][c] == player &&
+                        board[r][c] == board[r][c + 1] &&
+                        board[r][c] == board[r][c + 2] &&
+                        board[r][c] == board[r][c + 3])
                     return true;
         return false;
     }
@@ -250,15 +254,15 @@ public class ConnectFourState extends GameState {
     private boolean is4inRow(int i, int j) {
         //System.out.println("Checking row, after last Move "+i+", "+j);
 
-        int min = j-3 >= 0    ? j-3 : 0;
-        int max = j+3 <= cols ? j+3 : cols;
+        int min = j - 3 >= 0 ? j - 3 : 0;
+        int max = j + 3 <= cols ? j + 3 : cols;
         //System.out.println("Column bounds: "+min+" "+max);
-        for(int c=min; c<max-3;c++){
+        for (int c = min; c < max - 3; c++) {
             //System.out.println("Check row:"+i+" cols:"+c+"->"+(c+3));
-            if(board[i][c] != EMPTY &&
-                    board[i][c] == board[i][c+1] &&
-                    board[i][c] == board[i][c+2] &&
-                    board[i][c] == board[i][c+3] )
+            if (board[i][c] != EMPTY &&
+                    board[i][c] == board[i][c + 1] &&
+                    board[i][c] == board[i][c + 2] &&
+                    board[i][c] == board[i][c + 3])
                 return true;
         }
         return false;
@@ -270,20 +274,19 @@ public class ConnectFourState extends GameState {
     private boolean is4inCol(int i, int j) {
 
         //System.out.println("Checking col, after last Move "+i+", "+j);
-        int min = i-3 >= 0    ? i-3 : 0;
-        int max = i+3 <= rows ? i+3 : rows;
+        int min = i - 3 >= 0 ? i - 3 : 0;
+        int max = i + 3 <= rows ? i + 3 : rows;
         //System.out.println("Row bounds: "+min+" "+max);
-        for(int r=min; r<max-3; r++){
+        for (int r = min; r < max - 3; r++) {
             //System.out.println("Check col: "+j+" rows"+r+"->"+(r+3));
-            if(board[r][j] != EMPTY &&
-                    board[r][j] == board[r+1][j] &&
-                    board[r][j] == board[r+2][j] &&
-                    board[r][j] == board[r+3][j] )
+            if (board[r][j] != EMPTY &&
+                    board[r][j] == board[r + 1][j] &&
+                    board[r][j] == board[r + 2][j] &&
+                    board[r][j] == board[r + 3][j])
                 return true;
         }
         return false;
     }
-
 
 
     // vérifier s'il y a pas une ligne diagonale de faite
@@ -293,19 +296,19 @@ public class ConnectFourState extends GameState {
         //System.out.println("Checking diag up, after last Move "+r+","+c);
 
 
-        for(int i=-3; i<=0; i++){
+        for (int i = -3; i <= 0; i++) {
             //System.out.println("Checking row: "+i);
-            if (r+i>=0 && c+i>=0 &&
-                    r+i+3<rows && c+i+3<cols){
+            if (r + i >= 0 && c + i >= 0 &&
+                    r + i + 3 < rows && c + i + 3 < cols) {
 
 
                 //System.out.println("Fits cells: ("
                 //                  +(r+i)+","+(c+i)+") -> ("
                 //                  +(r+i+3)+","+(c+i+3)+")" );
-                if(board[r+i][c+i] != EMPTY &&
-                        board[r+i][c+i] == board[r+i+1][c+i+1] &&
-                        board[r+i][c+i] == board[r+i+2][c+i+2] &&
-                        board[r+i][c+i] == board[r+i+3][c+i+3] )
+                if (board[r + i][c + i] != EMPTY &&
+                        board[r + i][c + i] == board[r + i + 1][c + i + 1] &&
+                        board[r + i][c + i] == board[r + i + 2][c + i + 2] &&
+                        board[r + i][c + i] == board[r + i + 3][c + i + 3])
                     return true;
             }
         }
@@ -313,17 +316,17 @@ public class ConnectFourState extends GameState {
 
         //System.out.println("Checking diag down, after last Move "+r+","+c);
 
-        for(int i=0; i<=3;i++){
+        for (int i = 0; i <= 3; i++) {
             //System.out.println("Checking row: "+i);
-            if (r-i-3>=0 && c+i>=0 &&
-                    r-i<rows && c+i+3<cols) {
+            if (r - i - 3 >= 0 && c + i >= 0 &&
+                    r - i < rows && c + i + 3 < cols) {
                 //System.out.println("Fits cells: ("
                 //                  +(r-i)+","+(c+i)+") -> ("
                 //                   +(r-i-3)+","+(c+i+3)+")" );
-                if(board[r-i][c+i] != EMPTY &&
-                        board[r-i][c+i] == board[r-i-1][c+i+1] &&
-                        board[r-i][c+i] == board[r-i-2][c+i+2] &&
-                        board[r-i][c+i] == board[r-i-3][c+i+3] )
+                if (board[r - i][c + i] != EMPTY &&
+                        board[r - i][c + i] == board[r - i - 1][c + i + 1] &&
+                        board[r - i][c + i] == board[r - i - 2][c + i + 2] &&
+                        board[r - i][c + i] == board[r - i - 3][c + i + 3])
                     return true;
 
 
