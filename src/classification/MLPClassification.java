@@ -21,7 +21,7 @@ public class MLPClassification extends AlgoClassification {
         int pixels = first.getRows() * first.getCols();
 
         int[] layers = new int[]{pixels};
-        System.arraycopy(layers, 0, middleLayers, 1, layers.length);
+        System.arraycopy(middleLayers, 0, layers, 1, middleLayers.length);
         layers[layers.length - 1] = 10;
 
         this.mlp = new MLP(layers, learningRate, transferFunction);
