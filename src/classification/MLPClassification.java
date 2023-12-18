@@ -20,7 +20,8 @@ public class MLPClassification extends AlgoClassification {
         Imagette first = trainingImagettes.getFirst();
         int pixels = first.getRows() * first.getCols();
 
-        int[] layers = new int[]{pixels};
+        int[] layers = new int[middleLayers.length + 2];
+        layers[0] = pixels;
         System.arraycopy(middleLayers, 0, layers, 1, middleLayers.length);
         layers[layers.length - 1] = 10;
 
