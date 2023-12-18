@@ -90,6 +90,10 @@ public class TicTacToe extends Game {
         return null; // faire plaisir a javac
     }
 
+    @Override
+    public double getHeuristicPoints(GameState s) {
+        return 0;
+    }
 
-    
+
 }
