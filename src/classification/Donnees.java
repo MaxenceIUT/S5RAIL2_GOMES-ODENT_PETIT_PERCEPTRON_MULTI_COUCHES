@@ -1,5 +1,7 @@
 package classification;
 
+import utils.Progress;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -33,19 +35,13 @@ public class Donnees {
         int numRows = trainingImages.readInt();
         int numCols = trainingImages.readInt();
 
-        System.out.println("Le fichier des images d'entraînement est de type " + trainingType);
-        System.out.println("Le fichier des images d'entraînement est de type " + trainingType);
         System.out.println("Il y a " + imageCount + " images et " + labelCount + " labels");
         System.out.println("Les images font du " + numRows + "x" + numCols + " pixels");
 
         List<Imagette> imagettes = new ArrayList<>();
+        Progress progress = new Progress("Chargement des images... ");
 
         for (int i = 0; i < imageCount; i++) {
-            //if (i > 2000) {
-            //    trainingLabels.skipBytes(1);
-            //    trainingImages.skipBytes(numRows * numCols);
-            //    continue;
-            //}
             int label = trainingLabels.readUnsignedByte();
             Imagette imagette = new Imagette(numRows, numCols, label);
             for (int row = 0; row < numRows; row++) {
@@ -55,8 +51,12 @@ public class Donnees {
                 }
             }
             imagettes.add(imagette);
+            if (i % 25 == 0) {
+                progress.setProgress(i + 1, imageCount);
+            }
         }
 
+        progress.complete("Chargement des images terminé !");
         return imagettes;
     }
 
