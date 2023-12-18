@@ -1,9 +1,10 @@
 import classification.*;
+import framework.Sigmoide;
+import framework.TransferFunction;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class TestsMNIST {
 
@@ -12,7 +13,7 @@ public class TestsMNIST {
     public static final String TEST_IMAGES_IDX3 = "t10k-images.idx3-ubyte";
     public static final String TEST_LABELS_IDX1 = "t10k-labels.idx1-ubyte";
 
-    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+    public static void main(String[] args) throws IOException {
         File resourceFolder = new File("MNIST");
         if (!resourceFolder.exists()) {
             System.out.println("Resources folder not found");
@@ -47,7 +48,11 @@ public class TestsMNIST {
         List<Imagette> testImagettes = testData.getImagettes();
 
         AlgoClassification knn = new KNN(trainingImagettes, 3);
-        AlgoClassification mlp = new MLPClassification(trainingImagettes, testImagettes);
+
+        int[] layers = {150, 100};
+        double learningRate = 0.6, errorTarget = 2;
+        TransferFunction tf = new Sigmoide();
+        AlgoClassification mlp = new MLPClassification(trainingImagettes, testImagettes, layers, learningRate, tf, errorTarget);
 
         List<AlgoClassification> algos = List.of(knn, mlp);
 
