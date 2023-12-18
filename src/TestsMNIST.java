@@ -59,7 +59,7 @@ public class TestsMNIST {
         for (AlgoClassification algo : algos) {
             int errorCount = 0;
             for (Imagette imagette : testImagettes) {
-                int classifiedAs = mlp.classify(imagette);
+                int classifiedAs = algo.classify(imagette);
                 int expected = imagette.getLabel();
                 if (classifiedAs != expected) errorCount++;
             }
