@@ -71,19 +71,19 @@ public class ConnectFourState extends GameState {
         return super.equalsState(o);
     }
 
-    public String toString(){
+    public String toString() {
         // int numDigits = String.valueOf(1000).length();
 
         String res = "";
-        for (int i=0;i<cols; i++)
-            res += " "+i+"  ";
+        for (int i = 0; i < cols; i++)
+            res += " " + i + "  ";
         res += "\n";
         res += Misc.dupString("+---", cols);
         res += "+\n";
         //for(int i=rows-1;i>=0; i--){
-        for(int i=0;i<rows; i++){
-            for(int j=0; j<cols; j++)
-                res += "| "+ (char)board[i][j]+" ";
+        for (int i = rows - 1; i >= 0; i--) {
+            for (int j = 0; j < cols; j++)
+                res += "| " + (char) board[i][j] + " ";
             res += "|\n";
             res += Misc.dupString("+---", cols);
             res += "+\n";
