@@ -8,7 +8,7 @@ import games.ia.framework.jeux.Player;
 
 public class AlphaBetaPlayer extends Player {
 
-    private static final int maxDepth = 12;
+    private static final int maxDepth = 3;
     private int consideredStates = 0;
 
     public AlphaBetaPlayer(Game game, boolean p1) {
@@ -18,7 +18,8 @@ public class AlphaBetaPlayer extends Player {
     @Override
     public Action getMove(GameState state) {
         ActionValuePair actionValuePair;
-        if (state.getPlayerToMove() == 1) {
+
+        if (state.getPlayerToMove() == 'O') {
             actionValuePair = maxValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
         } else {
             actionValuePair = minValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
@@ -28,8 +29,10 @@ public class AlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair maxValue(GameState state, double alpha, double beta, int depth) {
-        if (this.game.endOfGame(state) || depth == 0) {
+        if (this.game.endOfGame(state)) {
             return new ActionValuePair(null, state.getGameValue());
+        } else if (depth == 0) {
+            return new ActionValuePair(null, this.game.getHeuristicPoints(state));
         }
 
         double vMax = Double.MIN_VALUE;
@@ -57,8 +60,10 @@ public class AlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair minValue(GameState state, double alpha, double beta, int depth) {
-        if (this.game.endOfGame(state) || depth == 0) {
+        if (this.game.endOfGame(state)) {
             return new ActionValuePair(null, state.getGameValue());
+        } else if (depth == 0) {
+            return new ActionValuePair(null, this.game.getHeuristicPoints(state));
         }
 
         double vMin = Double.MAX_VALUE;
