@@ -10,8 +10,8 @@ import java.util.List;
 
 public class TestsMLPClassification {
     public static void main(String[] args) throws IOException {
-        var images  = new File("MNIST/train-images.idx3-ubyte");
-        var labels = new File("MNIST/train-labels.idx1-ubyte");
+        var images  = new File("MNIST/numbers/train-images.idx3-ubyte");
+        var labels = new File("MNIST/numbers/train-labels.idx1-ubyte");
         List<Imagette> imagettes = Donnees.load(images, labels);
 
         var knn = new KNN(imagettes, 5);
