@@ -3,10 +3,11 @@ package games.ia.problemes;
 import games.ia.framework.common.Misc;
 import games.ia.framework.common.State;
 import games.ia.framework.jeux.GameState;
+import games.ia.framework.recherche.HasHeuristic;
 
 import java.util.Arrays;
 
-public class ConnectFourState extends GameState {
+public class ConnectFourState extends GameState implements HasHeuristic {
 
     public static final int O = 'O';
     public static final int X = 'X';
@@ -44,10 +45,6 @@ public class ConnectFourState extends GameState {
 
     public int getCols() {
         return cols;
-    }
-
-    public int[][] getBoard() {
-        return board;
     }
 
     public ConnectFourState cloneState() {
@@ -334,6 +331,69 @@ public class ConnectFourState extends GameState {
         }
 
         return false;
+    }
+
+    @Override
+    public double getHeuristic() {
+        double points = 0;
+
+        /*
+         * This should return an heuristic value for the current state
+         * The heuristic should be a value between -1 and 1
+         * 1 means that the current player has won
+         * -1 means that the current player has lost
+         *
+         * The more the value is close to 1, the more the current player is winning
+         * The more the value is close to -1, the more the current player is losing
+         *
+         * When the current player has 3 pieces in a row, the heuristic should be close to 1
+         * When the opponent has 3 pieces in a row, the heuristic should be close to -1
+         * */
+
+        // Check for four-in-a-row for current player
+        if (isWiningMove(player_to_move)) {
+            return 1;
+        }
+
+        // Check for four-in-a-row for opponent
+        int opponent = (player_to_move == X ? O : X);
+        if (isWiningMove(opponent)) {
+            return -1;
+        }
+
+        // Check for three-in-a-row with an empty spot for both players in rows, columns and diagonals
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // Check rows
+                if (j < cols - 3) {
+                    int[] sequence = new int[]{board[i][j], board[i][j + 1], board[i][j + 2], board[i][j + 3]};
+                    Arrays.sort(sequence);
+                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
+                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
+                    }
+                }
+
+                // Check columns
+                if (i < rows - 3) {
+                    int[] sequence = new int[]{board[i][j], board[i + 1][j], board[i + 2][j], board[i + 3][j]};
+                    Arrays.sort(sequence);
+                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
+                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
+                    }
+                }
+
+                // Check diagonals
+                if (i < rows - 3 && j < cols - 3) {
+                    int[] sequence = new int[]{board[i][j], board[i + 1][j + 1], board[i + 2][j + 2], board[i + 3][j + 3]};
+                    Arrays.sort(sequence);
+                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
+                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
+                    }
+                }
+            }
+
+        }
+        return points;
     }
 
 }

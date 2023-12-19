@@ -13,6 +13,7 @@ public class MinMaxPlayer extends Player {
 
     public MinMaxPlayer(Game game, boolean p1) {
         super(game, p1);
+        this.name = "MinMax";
     }
 
     @Override

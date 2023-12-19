@@ -10,6 +10,6 @@ public interface HasHeuristic {
      * Retourne la valeur de l'heuristique 
      * @return Le résultat 
      */
-    public abstract double getHeuristic();
+    double getHeuristic();
     
 }

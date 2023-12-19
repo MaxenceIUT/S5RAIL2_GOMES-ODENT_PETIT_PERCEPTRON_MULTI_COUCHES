@@ -47,13 +47,6 @@ public abstract class Game extends BaseProblem {
     public abstract Action getHumanMove(GameState s);
 
     /**
-     * @param s l'état du jeux
-     * @return une heuristique pour l'état s
-     */
-    public abstract double getHeuristicPoints(GameState s);
-
-
-    /**
      * Générer un coup  aléatoire
      *
      * @param s l'état du jeux

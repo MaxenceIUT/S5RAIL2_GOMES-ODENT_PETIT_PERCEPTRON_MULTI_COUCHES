@@ -5,6 +5,8 @@ import games.ia.framework.common.ActionValuePair;
 import games.ia.framework.jeux.Game;
 import games.ia.framework.jeux.GameState;
 import games.ia.framework.jeux.Player;
+import games.ia.framework.recherche.HasHeuristic;
+import games.ia.problemes.ConnectFourState;
 
 public class AlphaBetaPlayer extends Player {
 
@@ -13,13 +15,14 @@ public class AlphaBetaPlayer extends Player {
 
     public AlphaBetaPlayer(Game game, boolean p1) {
         super(game, p1);
+        this.name = "AlphaBeta";
     }
 
     @Override
     public Action getMove(GameState state) {
         ActionValuePair actionValuePair;
 
-        if (state.getPlayerToMove() == 'O') {
+        if (state.getPlayerToMove() == ConnectFourState.X) {
             actionValuePair = maxValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
         } else {
             actionValuePair = minValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
@@ -29,10 +32,13 @@ public class AlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair maxValue(GameState state, double alpha, double beta, int depth) {
-        if (this.game.endOfGame(state)) {
-            return new ActionValuePair(null, state.getGameValue());
+        // In case the algorithm knows he will lose, he plays a random move
+        Action randomAction = game.getRandomMove(state);
+
+        if (this.game.endOfGame(state) || !(state instanceof HasHeuristic)) {
+            return new ActionValuePair(randomAction, state.getGameValue());
         } else if (depth == 0) {
-            return new ActionValuePair(null, this.game.getHeuristicPoints(state));
+            return new ActionValuePair(randomAction, ((HasHeuristic) state).getHeuristic());
         }
 
         double vMax = Double.MIN_VALUE;
@@ -60,10 +66,13 @@ public class AlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair minValue(GameState state, double alpha, double beta, int depth) {
-        if (this.game.endOfGame(state)) {
-            return new ActionValuePair(null, state.getGameValue());
+        // In case the algorithm knows he will lose, he plays a random move
+        Action randomAction = game.getRandomMove(state);
+
+        if (this.game.endOfGame(state) || !(state instanceof HasHeuristic)) {
+            return new ActionValuePair(randomAction, state.getGameValue());
         } else if (depth == 0) {
-            return new ActionValuePair(null, this.game.getHeuristicPoints(state));
+            return new ActionValuePair(randomAction, ((HasHeuristic) state).getHeuristic());
         }
 
         double vMin = Double.MAX_VALUE;
