@@ -7,7 +7,10 @@ import games.ia.framework.jeux.Player;
 import games.ia.framework.recherche.SearchProblem;
 import games.ia.framework.recherche.TreeSearch;
 import games.ia.problemes.*;
+import gps.AStar;
+import gps.GPS;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -28,7 +31,7 @@ public class ArgParse {
     public static String msg = null;
 
     /**
-     * spécifie le message d'aide
+     * Spécifie le message d'aide
      */
     public static void setUsage(String m) {
         msg = m;
@@ -70,9 +73,7 @@ public class ArgParse {
      */
     public static boolean getFlagFromCmd(String[] args, String arg) {
         int idx = Arrays.asList(args).indexOf(arg);
-        if (idx >= 0)
-            return true;
-        return false;
+        return idx >= 0;
 
     }
 
@@ -88,10 +89,10 @@ public class ArgParse {
     }
 
     /**
-     * Retourne le nom du jeux choisi
+     * Retourne le nom du jeu choisi
      *
      * @param args Le tableau de la ligne de commande
-     * @return le nom du jeux ou null
+     * @return le nom du jeu ou null
      */
     public static String getGameFromCmd(String[] args) {
         handleFlags(args);
@@ -114,7 +115,7 @@ public class ArgParse {
      * Retourne le type joueur 1
      *
      * @param args Le tableau de la ligne de commande
-     * @return le jeureur 1  ou null
+     * @return le joueur 1 ou null
      */
     public static String getPlayer1FromCmd(String[] args) {
         handleFlags(args);
@@ -125,7 +126,7 @@ public class ArgParse {
      * Retourne le type joueur 2
      *
      * @param args Le tableau de la ligne de commande
-     * @return le jeureur 2  ou null
+     * @return le joueur 2 ou null
      */
     public static String getPlayer2FromCmd(String[] args) {
         handleFlags(args);
@@ -153,7 +154,7 @@ public class ArgParse {
      * @return Une instance du problème
      */
 
-    public static SearchProblem makeProblem(String prob) {
+    public static SearchProblem makeProblem(String prob) throws IOException, InterruptedException {
         if (prob == null)
             prob = "vac";
         switch (prob) {
@@ -165,6 +166,8 @@ public class ArgParse {
                 return new Vacuum();
             case "puz":
                 return new EightPuzzle();
+            case "gps":
+                return new GPS();
             default:
                 System.out.println("Problème inconnu");
                 usage();
@@ -203,7 +206,7 @@ public class ArgParse {
      * Factory qui retourne une instance du problème choisie ou celui par défaut
      *
      * @param p_type le type de joueur
-     * @param game   instance du jeux
+     * @param game   instance du jeu
      * @param p1     vrai si joueur num 1
      * @return Une instance de player
      */
@@ -233,7 +236,7 @@ public class ArgParse {
      * Factory qui retourne une instance de l'algorithme choisi ou celui par défaut
      *
      * @param algo Le nom de l'algorithme ou null
-     * @param p    Le problème a résoudre
+     * @param p    Le problème à résoudre
      * @param s    L'état initial
      * @return Une instance de l'algorithme
      */
@@ -245,16 +248,8 @@ public class ArgParse {
         switch (algo) {
             case "rnd":
                 return new RandomSearch(p, s);
-            /*case "bfs":
-            return new BFS(p,s);
-        case "dfs":
-            return new DFS(p,s);
-        case "ucs":
-            return new UCS(p,s);
-        case "gfs":
-            return new GFS(p,s);
-        case "astar":
-        return new AStar(p,s);*/
+            case "astar":
+                return new AStar(p,s);
             default:
                 System.out.println("Algorithme inconnu");
                 usage();
@@ -273,17 +268,13 @@ public class ArgParse {
     public static State makeInitialState(String prob) {
         if (prob == null)
             prob = "vac";
-        switch (prob) {
-            case "dum":
-                return new DummyState();
-            case "map":
-                return RomaniaMap.ARAD;
-            case "vac":
-            default:
-                return new VacuumState();
-            case "puz":
-                return new EightPuzzleState();
-        }
+        return switch (prob) {
+            case "dum" -> new DummyState();
+            case "map" -> RomaniaMap.ARAD;
+            default -> new VacuumState();
+            case "puz" -> new EightPuzzleState();
+            case "gps" -> GPS.DEPARTURE;
+        };
     }
 }
 

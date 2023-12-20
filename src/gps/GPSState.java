@@ -6,7 +6,7 @@ import games.ia.framework.recherche.HasHeuristic;
 public class GPSState extends State implements HasHeuristic {
 
     private final City city;
-    private final double distToGoal;
+    private double distToGoal;
 
     public GPSState(City city, double distToGoal){
         this.city = city;
@@ -30,9 +30,17 @@ public class GPSState extends State implements HasHeuristic {
         return 31 * Double.hashCode(distToGoal) + city.hashCode();
     }
 
+    public String toString() {
+        return STR."{\{city.name()}, \{distToGoal}}";
+    }
+
     @Override
     public double getHeuristic() {
         return distToGoal;
+    }
+
+    public void setHeuristic(double heuristic) {
+        this.distToGoal = heuristic;
     }
 
     public City getCity() {
