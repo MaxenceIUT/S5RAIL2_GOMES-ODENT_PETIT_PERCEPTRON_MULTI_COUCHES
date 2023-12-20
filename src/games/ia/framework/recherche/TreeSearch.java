@@ -6,7 +6,6 @@ import games.ia.framework.common.State;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Queue;
 
 /**
  * Une classe mère qui représente un algorithme de recherche
@@ -34,12 +33,12 @@ public abstract class TreeSearch {
     /*
      * La liste des noeuds a étendre 
      */
-    protected Queue<SearchNode> frontier = null;
+    protected ArrayList<SearchNode> frontier = null;
 
     /*
      * La liste de noeuds déjà traités
      */
-    protected HashSet<State> explored = new HashSet<State>();
+    protected HashSet<State> explored = new HashSet<>();
 
 
     /**
@@ -86,7 +85,6 @@ public abstract class TreeSearch {
 
     /**
      * Afficher la solution trouvée (la suite d'actions)
-     *   
      * Utiliser en cas d'échec 
      */
  

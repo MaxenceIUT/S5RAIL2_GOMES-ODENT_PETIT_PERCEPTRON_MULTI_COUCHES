@@ -1,4 +1,4 @@
-package gps.ia.problemes;
+package gps;
 
 public record City(String name, double population, double latitude, double longitude) {
 

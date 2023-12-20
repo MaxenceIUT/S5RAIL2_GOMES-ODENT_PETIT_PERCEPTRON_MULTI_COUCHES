@@ -1,9 +1,8 @@
-package gps.ia.problemes;
+package gps;
 
-import gps.ia.framework.recherche.Problem;
-import gps.ia.framework.recherche.Distance;
-import gps.ia.framework.common.Action;
-import gps.ia.framework.common.State;
+import games.ia.framework.recherche.Problem;
+import games.ia.framework.common.Action;
+import games.ia.framework.common.State;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

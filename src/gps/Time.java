@@ -1,4 +1,4 @@
-package gps.ia.framework.recherche;
+package gps;
 
 public class Time {
 

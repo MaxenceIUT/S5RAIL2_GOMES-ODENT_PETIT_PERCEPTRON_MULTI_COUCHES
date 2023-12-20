@@ -1,7 +1,7 @@
-package gps.ia.problemes;
+package gps;
 
-import gps.ia.framework.common.State;
-import gps.ia.framework.recherche.HasHeuristic;
+import games.ia.framework.common.State;
+import games.ia.framework.recherche.HasHeuristic;
 
 public class GPSState extends State implements HasHeuristic {
 
