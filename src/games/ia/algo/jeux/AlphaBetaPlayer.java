@@ -10,7 +10,7 @@ import games.ia.problemes.ConnectFourState;
 
 public class AlphaBetaPlayer extends Player {
 
-    private static final int maxDepth = 3;
+    private final static int MAX_DEPTH = 6;
     private int consideredStates = 0;
 
     public AlphaBetaPlayer(Game game, boolean p1) {
@@ -20,34 +20,43 @@ public class AlphaBetaPlayer extends Player {
 
     @Override
     public Action getMove(GameState state) {
-        ActionValuePair actionValuePair;
+        ActionValuePair actionValuePair = null;
+        int currentMaxDepth = MAX_DEPTH;
 
-        if (state.getPlayerToMove() == ConnectFourState.X) {
-            actionValuePair = maxValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
-        } else {
-            actionValuePair = minValue(state, Double.MIN_VALUE, Double.MAX_VALUE, maxDepth);
+        while ((actionValuePair == null || actionValuePair.getAction() == null) && currentMaxDepth > 0) {
+            if (state.getPlayerToMove() == ConnectFourState.X) {
+                actionValuePair = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, currentMaxDepth);
+            } else {
+                actionValuePair = minValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, currentMaxDepth);
+            }
+            currentMaxDepth--;
         }
+
+        // Si malgré tout, on ne trouve pas de coup, on joue un coup aléatoire
+        if (actionValuePair.getAction() == null) {
+            Action randomAction = this.game.getRandomMove(state);
+            actionValuePair = new ActionValuePair(randomAction, 0);
+        }
+
         System.out.println("States considered: " + this.consideredStates);
         return actionValuePair.getAction();
     }
 
     private ActionValuePair maxValue(GameState state, double alpha, double beta, int depth) {
-        // In case the algorithm knows he will lose, he plays a random move
-        Action randomAction = game.getRandomMove(state);
-
         if (this.game.endOfGame(state) || !(state instanceof HasHeuristic)) {
-            return new ActionValuePair(randomAction, state.getGameValue());
-        } else if (depth == 0) {
-            return new ActionValuePair(randomAction, ((HasHeuristic) state).getHeuristic());
+            return new ActionValuePair(null, state.getGameValue());
+        } else if (depth < 0) {
+            return new ActionValuePair(null, ((HasHeuristic) state).getHeuristic());
         }
 
-        double vMax = Double.MIN_VALUE;
+        double vMax = Integer.MIN_VALUE;
         Action cMax = null;
 
         for (Action action : this.game.getActions(state)) {
             GameState newState = (GameState) this.game.doAction(state, action);
             this.consideredStates++;
             ActionValuePair actionValuePair = minValue(newState, alpha, beta, depth - 1);
+
             if (actionValuePair.getValue() > vMax) {
                 vMax = actionValuePair.getValue();
                 cMax = action;
@@ -66,21 +75,19 @@ public class AlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair minValue(GameState state, double alpha, double beta, int depth) {
-        // In case the algorithm knows he will lose, he plays a random move
-        Action randomAction = game.getRandomMove(state);
-
         if (this.game.endOfGame(state) || !(state instanceof HasHeuristic)) {
-            return new ActionValuePair(randomAction, state.getGameValue());
-        } else if (depth == 0) {
-            return new ActionValuePair(randomAction, ((HasHeuristic) state).getHeuristic());
+            return new ActionValuePair(null, state.getGameValue());
+        } else if (depth < 0) {
+            return new ActionValuePair(null, ((HasHeuristic) state).getHeuristic());
         }
 
-        double vMin = Double.MAX_VALUE;
+        double vMin = Integer.MAX_VALUE;
         Action cMin = null;
 
         for (Action action : this.game.getActions(state)) {
             GameState newState = (GameState) this.game.doAction(state, action);
             ActionValuePair actionValuePair = maxValue(newState, alpha, beta, depth - 1);
+
             if (actionValuePair.getValue() < vMin) {
                 vMin = actionValuePair.getValue();
                 cMin = action;
@@ -89,9 +96,11 @@ public class AlphaBetaPlayer extends Player {
                     beta = vMin;
                 }
             }
+
             if (vMin <= alpha) {
                 return new ActionValuePair(cMin, vMin);
             }
+
         }
 
         return new ActionValuePair(cMin, vMin);

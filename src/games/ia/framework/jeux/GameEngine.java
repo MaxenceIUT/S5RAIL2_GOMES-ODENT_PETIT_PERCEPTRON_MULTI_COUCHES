@@ -125,12 +125,11 @@ public class GameEngine {
     public Player getWinner(GameState s){
         double value = s.getGameValue();
 
-        if(value == 1)
+        if(value > 1)
             return player1;
-        if(value == 0)
+        else
             return player2;
         
-        return null;
     }
     
     /**

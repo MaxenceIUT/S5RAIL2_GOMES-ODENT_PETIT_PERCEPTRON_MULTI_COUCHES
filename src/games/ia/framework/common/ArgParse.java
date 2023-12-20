@@ -1,9 +1,6 @@
 package games.ia.framework.common;
 
-import games.ia.algo.jeux.AlphaBetaPlayer;
-import games.ia.algo.jeux.HumanPlayer;
-import games.ia.algo.jeux.MinMaxPlayer;
-import games.ia.algo.jeux.RandomPlayer;
+import games.ia.algo.jeux.*;
 import games.ia.algo.recherche.RandomSearch;
 import games.ia.framework.jeux.Game;
 import games.ia.framework.jeux.Player;

@@ -47,7 +47,7 @@ public class LancerJeux {
         Player winner = game_engine.getWinner(end_game);
         if(winner != null){
             System.out.print("Le joueur "
-                             +(game_engine.getEndGameValue(end_game) == 1 ? 1: 2)
+                             +(game_engine.getEndGameValue(end_game) > 1 ? 1: 2)
                              +" ("+ winner.getName()+") a gagné, après "
                              +game_engine.getTotalMoves()
                              +" coups. ");

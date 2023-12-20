@@ -6,6 +6,7 @@ import games.ia.framework.jeux.Game;
 import games.ia.framework.jeux.GameState;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -69,8 +70,8 @@ public class ConnectFour extends Game {
      * <p>Fin dès qu'il y a une ligne ou plus de place de jeux</p>
      */
     public boolean endOfGame(GameState s) {
-        return (((ConnectFourState) s).getGameValue()) > -1.0;
-
+        List<Double> endOfGame = List.of(Double.MIN_VALUE, Double.MAX_VALUE, 0d);
+        return endOfGame.contains(s.getGameValue());
     }
 
     /**

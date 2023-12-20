@@ -131,11 +131,11 @@ public class ConnectFourState extends GameState implements HasHeuristic {
 
         // tout remplie, match nul
         if (getNumberOfMarkedPositions() == rows * cols)
-            game_value = 0.5;
+            game_value = 0d;
 
         // un gagnant, lequel ?
         if (isWiningMove(player_to_move))
-            game_value = player_to_move == X ? 1 : 0;
+            game_value = player_to_move == X ? Double.MAX_VALUE : Double.MIN_VALUE;
 
         // change de joueur
         player_to_move = (player_to_move == X ? O : X);
@@ -333,66 +333,96 @@ public class ConnectFourState extends GameState implements HasHeuristic {
         return false;
     }
 
+    private boolean hasXPiecesInARow(int player, int x) {
+        // Check rows
+        for (int i = 0; i < rows; i++) {
+            int count = 0;
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == player) {
+                    count++;
+                    if (count == x) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+
+        // Check columns
+        for (int j = 0; j < cols; j++) {
+            int count = 0;
+            for (int i = 0; i < rows; i++) {
+                if (board[i][j] == player) {
+                    count++;
+                    if (count == x) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+
+        // Check diagonals (top-left to bottom-right)
+        for (int k = 0; k < rows + cols - 1; k++) {
+            int count = 0;
+            for (int j = Math.max(0, k - rows + 1); j <= Math.min(k, cols - 1); j++) {
+                int i = k - j;
+                if (i >= 0 && i < rows && j >= 0 && j < cols && board[i][j] == player) {
+                    count++;
+                    if (count == x) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+
+        // Check diagonals (top-right to bottom-left)
+        for (int k = 1 - rows; k < cols; k++) {
+            int count = 0;
+            for (int j = Math.max(0, k); j <= Math.min(k + rows - 1, cols - 1); j++) {
+                int i = j - k;
+                if (i >= 0 && i < rows && j >= 0 && j < cols && board[i][j] == player) {
+                    count++;
+                    if (count == x) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public double getHeuristic() {
         double points = 0;
 
-        /*
-         * This should return an heuristic value for the current state
-         * The heuristic should be a value between -1 and 1
-         * 1 means that the current player has won
-         * -1 means that the current player has lost
-         *
-         * The more the value is close to 1, the more the current player is winning
-         * The more the value is close to -1, the more the current player is losing
-         *
-         * When the current player has 3 pieces in a row, the heuristic should be close to 1
-         * When the opponent has 3 pieces in a row, the heuristic should be close to -1
-         * */
-
         // Check for four-in-a-row for current player
         if (isWiningMove(player_to_move)) {
-            return 1;
+            return Double.MAX_VALUE;
         }
 
         // Check for four-in-a-row for opponent
         int opponent = (player_to_move == X ? O : X);
         if (isWiningMove(opponent)) {
-            return -1;
+            return Double.MIN_VALUE;
         }
 
-        // Check for three-in-a-row with an empty spot for both players in rows, columns and diagonals
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                // Check rows
-                if (j < cols - 3) {
-                    int[] sequence = new int[]{board[i][j], board[i][j + 1], board[i][j + 2], board[i][j + 3]};
-                    Arrays.sort(sequence);
-                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
-                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
-                    }
-                }
+        if (hasXPiecesInARow(player_to_move, 3)) points += 10000;
+        if (hasXPiecesInARow(opponent, 3)) points -= 10000;
 
-                // Check columns
-                if (i < rows - 3) {
-                    int[] sequence = new int[]{board[i][j], board[i + 1][j], board[i + 2][j], board[i + 3][j]};
-                    Arrays.sort(sequence);
-                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
-                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
-                    }
-                }
+        if (hasXPiecesInARow(player_to_move, 2)) points += 100;
+        if (hasXPiecesInARow(opponent, 2)) points -= 100;
 
-                // Check diagonals
-                if (i < rows - 3 && j < cols - 3) {
-                    int[] sequence = new int[]{board[i][j], board[i + 1][j + 1], board[i + 2][j + 2], board[i + 3][j + 3]};
-                    Arrays.sort(sequence);
-                    if (sequence[0] == EMPTY && sequence[1] == sequence[2] && sequence[2] == sequence[3]) {
-                        points += (sequence[1] == player_to_move ? 0.75 : -0.75);
-                    }
-                }
-            }
+        if (hasXPiecesInARow(player_to_move, 1)) points += 10;
+        if (hasXPiecesInARow(opponent, 1)) points -= 10;
 
-        }
         return points;
     }
 
