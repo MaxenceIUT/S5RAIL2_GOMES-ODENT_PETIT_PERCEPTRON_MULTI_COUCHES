@@ -1,4 +1,4 @@
-package gps;
+package gps.ia.framework.recherche;
 
 public class Distance {
 

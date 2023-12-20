@@ -1,4 +1,4 @@
-package gps;
+package gps.ia.algo;
 
 import gps.ia.framework.common.Action;
 import gps.ia.framework.common.State;
