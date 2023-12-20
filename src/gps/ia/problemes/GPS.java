@@ -13,13 +13,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class GPS extends Problem {
 
-    public static List<GPSState> MOST_POPULATED_CITIES;
     public static GPSState DEPARTURE;
     public static GPSState ARRIVAL;
     public static List<Action> ACTIONS;
@@ -27,7 +27,7 @@ public class GPS extends Problem {
 
     public GPS() throws IOException, InterruptedException {
         this.distance = new Distance();
-        MOST_POPULATED_CITIES = new ArrayList<>(100);
+        STATES = new State[102];
         String urlDeparture = "https://geo.api.gouv.fr/communes?nom=Algrange&fields=nom,centre,population";
         String urlArrival = "https://geo.api.gouv.fr/communes?nom=Nimes&fields=nom,centre,population";
         String url = "https://geo.api.gouv.fr/communes?fields=nom,centre,population";
@@ -45,6 +45,8 @@ public class GPS extends Problem {
         double longitude = (double) departure.getJSONObject("centre").getJSONArray("coordinates").get(0);
         DEPARTURE = new GPSState(new City(name, population, latitude, longitude), 0);
 
+        STATES[0] = DEPARTURE;
+
         request = HttpRequest.newBuilder()
                 .uri(URI.create(urlArrival))
                 .build();
@@ -56,6 +58,8 @@ public class GPS extends Problem {
         latitude = (double) arrival.getJSONObject("centre").getJSONArray("coordinates").get(1);
         longitude = (double) arrival.getJSONObject("centre").getJSONArray("coordinates").get(0);
         ARRIVAL = new GPSState(new City(name, population, latitude, longitude), 0);
+
+        STATES[1] = ARRIVAL;
 
         request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -82,14 +86,23 @@ public class GPS extends Problem {
             double distToGoal = distance.calculate(latitude, longitude, DEPARTURE.getCity().latitude(), DEPARTURE.getCity().longitude());
 
             var city = new GPSState(new City(name, population, latitude, longitude), distToGoal);
-            MOST_POPULATED_CITIES.add(city);
+            STATES[i+2] = city;
         }
 
-        ACTIONS = new ArrayList<>(MOST_POPULATED_CITIES.size()+2);
+        ACTIONS = new ArrayList<>(STATES.length);
         ACTIONS.add(new Action("goto Algrange"));
         ACTIONS.add(new Action("goto Nimes"));
-        MOST_POPULATED_CITIES
-                .forEach(city -> new Action("goto " + city.getCity().name()));
+        Arrays.stream(STATES)
+                .forEach(city -> new Action("goto " + ((GPSState) city).getCity().name()));
+
+        for (int i = 0; i < STATES.length; i++) {
+            for (int j = 0; j < STATES.length; j++) {
+                if (i != j) {
+                    double cost = distance.calculate(((GPSState) STATES[i]).getCity().latitude(), ((GPSState) STATES[i]).getCity().longitude(), ((GPSState) STATES[j]).getCity().latitude(), ((GPSState) STATES[j]).getCity().longitude());
+                    TRANSITIONS.addTransition(STATES[i], ACTIONS.get(j), STATES[j], cost);
+                }
+            }
+        }
     }
 
     @Override
