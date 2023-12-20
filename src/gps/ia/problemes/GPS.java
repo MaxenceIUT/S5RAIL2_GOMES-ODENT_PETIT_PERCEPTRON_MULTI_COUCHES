@@ -1,9 +1,9 @@
 package gps.ia.problemes;
 
+import gps.ia.framework.recherche.Problem;
 import gps.ia.framework.recherche.Distance;
 import gps.ia.framework.common.Action;
 import gps.ia.framework.common.State;
-import gps.ia.framework.recherche.Problem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

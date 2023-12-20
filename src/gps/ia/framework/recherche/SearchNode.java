@@ -1,7 +1,7 @@
 package gps.ia.framework.recherche;
 
-import gps.ia.framework.common.Action;
 import gps.ia.framework.common.State;
+import gps.ia.framework.common.Action;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,10 +1,10 @@
 package gps.ia.algo;
 
+import gps.ia.framework.recherche.TreeSearch;
 import gps.ia.framework.common.Action;
 import gps.ia.framework.common.State;
 import gps.ia.framework.recherche.SearchNode;
 import gps.ia.framework.recherche.SearchProblem;
-import gps.ia.framework.recherche.TreeSearch;
 
 import java.util.ArrayList;
 import java.util.HashSet;
