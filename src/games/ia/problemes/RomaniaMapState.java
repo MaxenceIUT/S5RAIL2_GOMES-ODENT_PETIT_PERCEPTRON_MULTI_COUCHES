@@ -4,7 +4,7 @@ import games.ia.framework.common.State;
 import games.ia.framework.recherche.HasHeuristic;
 
 /**
- * Représente une état du problème du voyage en Roumanie
+ * Représente un état du problème du voyage en Roumanie
  *
  */
 
@@ -13,18 +13,18 @@ public class RomaniaMapState extends State implements HasHeuristic {
     
     // Le nom de la ville
 
-    private String name=null;
+    private final String name;
 
-    // Heuristique: distance à vol d'oiseau entre ici et Bucharest
+    // Heuristique : distance à vol d'oiseau entre ici et Bucharest
     // Une sous estimation du coût réel à venir
     
-    private double dist_to_goal=0;
+    private final double dist_to_goal;
     
     /**
      * Crée une ville (état du problème)
      * @param n le nom e de la ville
-     * @param d la distance a vole d'oiseau de Bucharest
-     * (la valeur de heuristique)
+     * @param d la distance à vol d'oiseau de Bucharest
+     * (la valeur de l'heuristique)
      */
         
     public RomaniaMapState(String n, double d){
@@ -48,7 +48,7 @@ public class RomaniaMapState extends State implements HasHeuristic {
 
     @Override
 	public String toString() {
-        return "{"+name+","+dist_to_goal+"}";
+        return STR."{\{name},\{dist_to_goal}}";
     }
 
     /**

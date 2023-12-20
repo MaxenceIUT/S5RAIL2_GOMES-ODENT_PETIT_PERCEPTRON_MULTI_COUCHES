@@ -6,7 +6,7 @@ import games.ia.problemes.Vacuum;
 import java.util.ArrayList;
 
 /**
- * Représente une abstraction pour un problème ou un jeux
+ * Représente une abstraction pour un problème ou un jeu
  *
  */
 
@@ -24,7 +24,7 @@ public abstract class BaseProblem {
     /**
      * Retourner les actions possibles un état
      * @param s Un état 
-     * @return Les actions possibles (pas forcement toutes) depuis s 
+     * @return Les actions possibles (pas forcément toutes) depuis s
      */
     public abstract ArrayList<Action> getActions(State s);
 

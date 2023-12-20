@@ -16,13 +16,13 @@ public abstract class State implements Cloneable {
     /** 
      * Vérifier l'égalité avec un autre état
      * @param o Un autre état 
-     * @return Vrai si c'est les même 
+     * @return Vrai si ce sont les mêmes
      */
     
     protected abstract boolean equalsState(State o);
 
     /** 
-     * Calculer un haché de l'état. Utile pour les comparaison  
+     * Calculer un haché de l'état. Utile pour les comparaisons
      * @return le haché
      */
     protected abstract int hashState();

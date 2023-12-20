@@ -26,17 +26,17 @@ public abstract class TreeSearch {
     protected State intial_state;
 
     /** 
-     * Le noeud trouvé par la recherche (la méthode solve)
+     * Le nœud trouvé par la recherche (la méthode solve)
      */
     protected SearchNode end_node;
 
     /*
-     * La liste des noeuds a étendre 
+     * La liste des nœuds à étendre
      */
     protected ArrayList<SearchNode> frontier = null;
 
     /*
-     * La liste de noeuds déjà traités
+     * La liste de nœuds déjà traités
      */
     protected HashSet<State> explored = new HashSet<>();
 
@@ -72,13 +72,9 @@ public abstract class TreeSearch {
         ArrayList<Action> solution = end_node.getPathFromRoot();
        
         // Afficher des trucs 
-        System.out.print("Solution: "+ intial_state+ " > "); 
+        System.out.print(STR."Solution: \{intial_state} > ");
         Misc.printCollection(solution, '>');
-        System.out.println("Solved ! Explored "+
-                           SearchNode.getTotalSearchNodes() +
-                           " nodes. Max depth was "+
-                           SearchNode.getMaxDepth() +
-                           ". Solution cost is "+end_node.getCost());
+        System.out.println(STR."Solved ! Explored \{SearchNode.getTotalSearchNodes()} nodes. Max depth was \{SearchNode.getMaxDepth()}. Solution cost is \{end_node.getCost()}");
         
         System.out.print(end_node.getState());
     }
@@ -94,7 +90,7 @@ public abstract class TreeSearch {
         ArrayList<Action> solution = end_node.getPathFromRoot();
        
         // Afficher des trucs 
-        System.out.print("Solution non trouvé : "+ intial_state+ " > "); 
+        System.out.print(STR."Solution non trouvé : \{intial_state} > ");
         Misc.printCollection(solution, '>');
         
         System.out.print(end_node.getState());
