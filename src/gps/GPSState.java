@@ -8,7 +8,7 @@ public class GPSState extends State implements HasHeuristic {
     private final City city;
     private double distToGoal;
 
-    public GPSState(City city, double distToGoal){
+    public GPSState(City city, double distToGoal) {
         this.city = city;
         this.distToGoal = distToGoal;
     }
