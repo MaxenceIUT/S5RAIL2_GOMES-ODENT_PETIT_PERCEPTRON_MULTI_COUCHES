@@ -10,10 +10,10 @@ public class Distance {
         double longitude1Radians = Math.toRadians(longitude1);
         double longitude2Radians = Math.toRadians(longitude2);
 
-        double a = Math.pow(Math.sin(latitude1Radians - latitude2Radians / 2), 2)
-                + Math.cos(latitude1)
-                * Math.cos(latitude2)
-                * Math.pow(Math.sin(longitude1Radians - longitude2Radians / 2), 2);
+        double a = Math.pow(Math.sin((latitude2Radians - latitude1Radians) / 2), 2)
+                + Math.cos(latitude1Radians)
+                * Math.cos(latitude2Radians)
+                * Math.pow(Math.sin((longitude2Radians - longitude1Radians) / 2), 2);
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
