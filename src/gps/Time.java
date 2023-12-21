@@ -2,16 +2,15 @@ package gps;
 
 public class Time {
 
-    public final double HIGHWAY_SPEED = 130;
-    public final double FAST_ROAD_SPEED = 90;
-    public final double B_ROAD_SPEED = 50;
+    public static final double HIGHWAY_SPEED = 130;
+    public static final double FAST_ROAD_SPEED = 90;
+    public static final double B_ROAD_SPEED = 50;
 
-    public double calculate(double distance, String roadType) {
+    public static double calculate(double distance, Road.Type roadType) {
         return switch (roadType) {
-            case "highway" -> distance / HIGHWAY_SPEED;
-            case "fast road" -> distance / FAST_ROAD_SPEED;
-            case "B road" -> distance / B_ROAD_SPEED;
-            default -> throw new IllegalStateException("Unexpected value: " + roadType);
+            case Road.Type.HIGHWAY -> distance / HIGHWAY_SPEED;
+            case Road.Type.FAST_ROAD -> distance / FAST_ROAD_SPEED;
+            case Road.Type.B_ROAD -> distance / B_ROAD_SPEED;
         };
     }
 

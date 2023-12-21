@@ -51,13 +51,9 @@ public class GPS extends Problem {
             STATES[i] = city;
         }
 
-        /*var random = new Random();
+        var random = new Random();
         DEPARTURE = (GPSState) STATES[random.nextInt(STATES.length)];
         ARRIVAL = (GPSState) STATES[random.nextInt(STATES.length)];
-        */
-
-        DEPARTURE = (GPSState) STATES[0];
-        ARRIVAL = (GPSState) STATES[1];
 
         Arrays.stream(STATES).forEach(state -> {
 
@@ -81,12 +77,27 @@ public class GPS extends Problem {
         for (int i = 0; i < STATES.length; i++) {
             for (int j = 0; j < STATES.length; j++) {
                 if (i != j) {
-                    double latitudeI = ((GPSState) STATES[i]).getCity().latitude();
-                    double longitudeI = ((GPSState) STATES[i]).getCity().longitude();
-                    double latitudeJ = ((GPSState) STATES[j]).getCity().latitude();
-                    double longitudeJ = ((GPSState) STATES[j]).getCity().longitude();
+                    GPSState cityI = (GPSState) STATES[i];
+                    GPSState cityJ = (GPSState) STATES[j];
+
+                    double latitudeI = cityI.getCity().latitude();
+                    double longitudeI = cityI.getCity().longitude();
+                    double latitudeJ = cityJ.getCity().latitude();
+                    double longitudeJ = cityJ.getCity().longitude();
 
                     double cost = Distance.calculate(latitudeI, longitudeI, latitudeJ, longitudeJ);
+
+                    Road.Type roadType = Road.Type.B_ROAD;
+
+                    if (i < 50 && j < 50) {
+                        roadType = Road.Type.HIGHWAY;
+                    } else if (i < 100) {
+                        roadType = Road.Type.FAST_ROAD;
+                    }
+
+                    Road road = new Road(cityI.getCity(), cityJ.getCity(), roadType, cost);
+                    cityI.addRoad(road);
+                    cityJ.addRoad(road);
                     TRANSITIONS.addTransition(STATES[i], ACTIONS[j], STATES[j], cost);
                 }
             }
