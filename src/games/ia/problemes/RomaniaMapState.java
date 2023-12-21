@@ -48,7 +48,7 @@ public class RomaniaMapState extends State implements HasHeuristic {
 
     @Override
 	public String toString() {
-        return STR."{\{name},\{dist_to_goal}}";
+        return name + " - " + dist_to_goal;
     }
 
     /**

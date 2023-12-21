@@ -72,9 +72,9 @@ public abstract class TreeSearch {
         ArrayList<Action> solution = end_node.getPathFromRoot();
        
         // Afficher des trucs 
-        System.out.print(STR."Solution: \{intial_state} > ");
+        System.out.print("Solution: " + intial_state);
         Misc.printCollection(solution, '>');
-        System.out.println(STR."Solved ! Explored \{SearchNode.getTotalSearchNodes()} nodes. Max depth was \{SearchNode.getMaxDepth()}. Solution cost is \{end_node.getCost()}");
+        System.out.println("Solved ! Explored " + SearchNode.getTotalSearchNodes() + " nodes. Max depth was " + SearchNode.getMaxDepth() + "Solution cost is " + end_node.getCost());
         
         System.out.print(end_node.getState());
     }
@@ -90,7 +90,7 @@ public abstract class TreeSearch {
         ArrayList<Action> solution = end_node.getPathFromRoot();
        
         // Afficher des trucs 
-        System.out.print(STR."Solution non trouvé : \{intial_state} > ");
+        System.out.print("Solution non trouvé : " + intial_state + ">");
         Misc.printCollection(solution, '>');
         
         System.out.print(end_node.getState());

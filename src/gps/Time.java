@@ -14,4 +14,5 @@ public class Time {
             default -> throw new IllegalStateException("Unexpected value: " + roadType);
         };
     }
+
 }

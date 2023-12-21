@@ -31,7 +31,7 @@ public class GPSState extends State implements HasHeuristic {
     }
 
     public String toString() {
-        return STR."{\{city.name()}, \{distToGoal}}";
+        return "{" + city.name() + " - " + distToGoal + "}";
     }
 
     @Override

@@ -14,16 +14,12 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import static java.lang.StringTemplate.STR;
-
 public class GPS extends Problem {
 
     public static GPSState DEPARTURE;
     public static GPSState ARRIVAL;
-    public Distance distance;
 
     public GPS() throws IOException, InterruptedException {
-        this.distance = new Distance();
         STATES = new State[100];
         String url = "https://geo.api.gouv.fr/communes?fields=nom,centre,population";
 
@@ -55,9 +51,13 @@ public class GPS extends Problem {
             STATES[i] = city;
         }
 
-        var random = new Random();
+        /*var random = new Random();
         DEPARTURE = (GPSState) STATES[random.nextInt(STATES.length)];
         ARRIVAL = (GPSState) STATES[random.nextInt(STATES.length)];
+        */
+
+        DEPARTURE = (GPSState) STATES[0];
+        ARRIVAL = (GPSState) STATES[1];
 
         Arrays.stream(STATES).forEach(state -> {
 
@@ -66,7 +66,7 @@ public class GPS extends Problem {
             double latitudeArrival = ARRIVAL.getCity().latitude();
             double longitudeArrival = ARRIVAL.getCity().longitude();
 
-            double distToGoal = distance.calculate(latitude, longitude, latitudeArrival, longitudeArrival);
+            double distToGoal = Distance.calculate(latitude, longitude, latitudeArrival, longitudeArrival);
 
             ((GPSState) state).setHeuristic(distToGoal);
         });
@@ -74,20 +74,19 @@ public class GPS extends Problem {
         ACTIONS = new Action[STATES.length];
         for (int i = 0; i < ACTIONS.length; i++) {
             String cityName = ((GPSState) STATES[i]).getCity().name();
-            var action = new Action(STR . "goto \{cityName}");
+            var action = new Action("goto " + cityName);
             ACTIONS[i] = action;
         }
 
         for (int i = 0; i < STATES.length; i++) {
             for (int j = 0; j < STATES.length; j++) {
                 if (i != j) {
-
                     double latitudeI = ((GPSState) STATES[i]).getCity().latitude();
                     double longitudeI = ((GPSState) STATES[i]).getCity().longitude();
                     double latitudeJ = ((GPSState) STATES[j]).getCity().latitude();
                     double longitudeJ = ((GPSState) STATES[j]).getCity().longitude();
 
-                    double cost = distance.calculate(latitudeI, longitudeI, latitudeJ, longitudeJ);
+                    double cost = Distance.calculate(latitudeI, longitudeI, latitudeJ, longitudeJ);
                     TRANSITIONS.addTransition(STATES[i], ACTIONS[j], STATES[j], cost);
                 }
             }
@@ -98,4 +97,5 @@ public class GPS extends Problem {
     public boolean isGoalState(State s) {
         return s.equals(ARRIVAL);
     }
+
 }

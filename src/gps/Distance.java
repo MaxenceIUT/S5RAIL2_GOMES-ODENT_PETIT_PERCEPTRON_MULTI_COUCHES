@@ -2,9 +2,9 @@ package gps;
 
 public class Distance {
 
-    public final double R = 6371;
+    public static final double R = 6371;
 
-    public double calculate(double latitude1, double longitude1, double latitude2, double longitude2) {
+    public static double calculate(double latitude1, double longitude1, double latitude2, double longitude2) {
         double latitude1Radians = Math.toRadians(latitude1);
         double latitude2Radians = Math.toRadians(latitude2);
         double longitude1Radians = Math.toRadians(longitude1);
@@ -19,4 +19,5 @@ public class Distance {
 
         return R * c;
     }
+
 }
